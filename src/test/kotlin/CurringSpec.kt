@@ -1,9 +1,9 @@
+import Funtions.FunctionBasedSpec
 import Funtions.fourArgumentsCurring
-import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
 
-class CurringSpec : StringSpec() {
+class CurringSpec : FunctionBasedSpec() {
     init {
         "4ArgumentsCurring" {
             checkAll<String, String, String, String> { a, b, c, d ->

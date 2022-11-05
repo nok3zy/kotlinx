@@ -1,70 +1,62 @@
 import Funtions.*
-import com.appmattus.kotlinfixture.kotlinFixture
 import io.kotest.matchers.shouldBe
+import io.kotest.property.checkAll
 
 class ComposeSpec : FunctionBasedSpec() {
     init {
-        val fixture = kotlinFixture()
+        fun square(n: Int) = n * n
+        fun triple(n: Int) = n * 3
 
-        given("Random Int value") {
-            val value = fixture<Int>()
-
-            `when`("Compose square, triple") {
-                fun square(n: Int) = n * n
-                fun triple(n: Int) = n * 3
-
+        "Compose" {
+            checkAll<Int> { value ->
                 val squareOfTriple = compose(::square, ::triple)
                 val result = squareOfTriple(value)
 
-                then("Value will be tripled then squared.") {
-                    val expected = square(triple(value))
+                val expected = square(triple(value))
 
-                    result shouldBe expected
-                }
+                result shouldBe expected
             }
+        }
 
-            `when`("Compose square, triple : Polymorphic") {
-                fun square(n: Int) = n * n
-                fun triple(n: Int) = n * 3
-
-                val squareOfTriple = polyCompose<Int, Int, Int>(::square, ::triple)
+        "Polymorphic compose" {
+            checkAll<Int> { value ->
+                val squareOfTriple = polyCompose(::square, ::triple)
                 val result = squareOfTriple(value)
 
-                then("Value will be tripled then squared.") {
-                    val expected = square(triple(value))
+                val expected = square(triple(value))
 
-                    result shouldBe expected
-                }
+                result shouldBe expected
             }
+        }
 
-            `when`("Compose square, triple : higherCompose") {
+        "Higher Compose" {
+            checkAll<Int> { value ->
                 val square: (Int) -> Int = { it * it }
                 val triple: (Int) -> Int = { it * 3 }
 
                 val squareOfTriple = higherCompose<Int, Int, Int>()(square)(triple)
                 val result = squareOfTriple(value)
 
-                then("Value will be tripled then squared.") {
-                    val expected = square(triple(value))
+                val expected = square(triple(value))
 
-                    result shouldBe expected
-                }
+                result shouldBe expected
             }
+        }
 
-            `when`("Compose square and triple") {
+        "Compose square and triple" {
+            checkAll<Int> { value ->
                 val compose: (IntUnOp) -> (IntUnOp) -> IntUnOp = { x -> { y -> { z -> x(y(z)) } } }
 
                 val square: IntUnOp = { it * it }
                 val triple: IntUnOp = { it * 3 }
+
                 val squareOfTriple = compose(square)(triple)
 
                 val result = squareOfTriple(value)
 
-                then("Value will be tripled then squared") {
-                    val expected = square(triple(value))
+                val expected = square(triple(value))
 
-                    result shouldBe expected
-                }
+                result shouldBe expected
             }
         }
     }
