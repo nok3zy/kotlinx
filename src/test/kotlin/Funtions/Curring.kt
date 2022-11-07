@@ -1,6 +1,6 @@
 package Funtions
 
-fun <A, B, C, D> FunctionBasedSpec.fourArgumentsCurring()= { a: A ->
+fun <A, B, C, D> FunctionBasedSpec.fourArgumentsCurring() = { a: A ->
     { b: B ->
         { c: C ->
             { d: D ->
@@ -11,3 +11,5 @@ fun <A, B, C, D> FunctionBasedSpec.fourArgumentsCurring()= { a: A ->
         }
     }
 }
+
+fun <A, B, C> FunctionBasedSpec.partOne(a: A, f: (A) -> (B) -> C): (B) -> C = f(a)
