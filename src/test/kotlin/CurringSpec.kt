@@ -21,6 +21,8 @@ class CurringSpec : FunctionBasedSpec() {
         }
 
         "Fixed money then input rate"{
+            val tax = { a: Int -> { b: Double -> a * (1 + b / 100) } }
+
             forAll<Int, Double> { a, b ->
                 a != 0 || partOne(a, tax)(b) == tax(a)(b)
             }
