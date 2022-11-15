@@ -1,7 +1,6 @@
 import Funtions.FunctionBasedSpec
 import Funtions.IntBiOp
 import Funtions.IntUnOp
-import com.appmattus.kotlinfixture.kotlinFixture
 import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
 
